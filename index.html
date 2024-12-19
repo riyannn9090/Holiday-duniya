@@ -11,41 +11,111 @@
             height: 100vh;
             margin: 0;
             text-align: center;
-            background: linear-gradient(to bottom right, #89cff0, #f4f4f9); /* Gradient background */
+            background: linear-gradient(to bottom right, #89cff0, #f4f4f9);
             font-family: Arial, sans-serif;
+            overflow: hidden; /* Hide confetti overflow */
         }
 
         /* Container styles */
         div {
-            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            background-color: rgba(255, 255, 255, 0.8);
             padding: 30px;
-            border-radius: 15px; /* Rounded corners */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow effect */
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-out; /* Fade-in animation */
         }
 
         /* Logo styles */
         img {
-            max-width: 100px; /* Limit logo size */
-            margin-bottom: 20px; /* Space between logo and heading */
+            max-width: 100px;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite; /* Bouncing animation */
         }
 
         /* Heading styles */
         h1 {
-            color: #333; /* Dark text color for contrast */
+            color: #333;
             font-size: 2em;
             margin-bottom: 10px;
+            animation: fadeInUp 1s ease-out; /* Slide-in effect for the heading */
         }
 
         /* Paragraph styles */
         p {
-            color: #555; /* Subtle gray text */
+            color: #555;
             font-size: 1.2em;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        /* Keyframes for bounce animation */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Keyframes for fade-in effect */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Keyframes for slide-in from the bottom */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Confetti styles */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ffcc00;
+            opacity: 0.7;
+            animation: fall 3s linear infinite;
+        }
+
+        /* Keyframes for confetti animation */
+        @keyframes fall {
+            from {
+                transform: translateY(-10%) translateX(calc(var(--x) * 1vw));
+            }
+            to {
+                transform: translateY(110%) translateX(calc(var(--x) * 1vw));
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Confetti elements -->
+    <div class="confetti" style="--x: -10;"></div>
+    <div class="confetti" style="--x: -5;"></div>
+    <div class="confetti" style="--x: 0;"></div>
+    <div class="confetti" style="--x: 5;"></div>
+    <div class="confetti" style="--x: 10;"></div>
+    <div class="confetti" style="--x: 15;"></div>
+    <div class="confetti" style="--x: 20;"></div>
+
+    <!-- Main content -->
     <div>
-        <img src="images/STK-20240727-WA0001.webp" alt="Holiday Duniya Logo"><!-- Replace with your logo file path -->
+        <img src="images/STK-20240727-WA0001.webp" alt="Holiday Duniya Logo">
         <h1>Welcome to Holiday Duniya</h1>
         <p>Your booking is confirmed</p>
     </div>
