@@ -1,53 +1,203 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Holiday Duniya Booking</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holiday Duniya Animation</title>
     <style>
-        /* General styles for body */
         body {
+            margin: 0;
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
-            text-align: center;
-            background: linear-gradient(to bottom right, #89cff0, #f4f4f9); /* Gradient background */
+            background: #000;
+            color: #fff;
             font-family: Arial, sans-serif;
+            position: relative;
         }
 
-        /* Container styles */
-        div {
-            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
-            padding: 30px;
-            border-radius: 15px; /* Rounded corners */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow effect */
+        #animation-container {
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 2s ease-in-out forwards, slideUp 2s ease-in-out forwards;
         }
 
-        /* Logo styles */
-        img {
-            max-width: 100px; /* Limit logo size */
-            margin-bottom: 20px; /* Space between logo and heading */
+        #logo {
+            font-size: 3em;
+            font-weight: bold;
+            color: #ff6f61;
+            animation: pulse 2s infinite;
         }
 
-        /* Heading styles */
-        h1 {
-            color: #333; /* Dark text color for contrast */
-            font-size: 2em;
-            margin-bottom: 10px;
+        #subheading {
+            font-size: 1.5em;
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeIn 3s ease-in-out forwards 1s;
         }
 
-        /* Paragraph styles */
-        p {
-            color: #555; /* Subtle gray text */
-            font-size: 1.2em;
+        #fireworks {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .firecracker {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ff6f61, #f00);
+            opacity: 1;
+            animation: firecrackerBurst 1s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            0% {
+                transform: translateY(50px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        @keyframes firecrackerBurst {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(2);
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0);
+                top: 100%;
+                left: 100%;
+            }
+        }
+
+        /* Particles spread from the firecracker center */
+        .particle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ff6f61, #f00);
+            animation: particleExplosion 1s ease-out forwards;
+        }
+
+        @keyframes particleExplosion {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0);
+                opacity: 0;
+                top: 50%;
+                left: 50%;
+            }
         }
     </style>
 </head>
 <body>
-    <div>
-        <img src="STK-20240727-WA0001.webp" alt="Holiday Duniya Logo"><!-- Replace with your logo file path -->
-        <h1>Welcome to Holiday Duniya</h1>
-        <p>Your booking is confirmed</p>
+    <div id="animation-container">
+        <div id="logo">Holiday Duniya</div>
+        <div id="subheading">Your Adventure Awaits</div>
     </div>
+
+    <div id="fireworks"></div>
+
+    <script>
+        // Function to create random firecrackers that burst
+        function createFirecrackers() {
+            const fireworksContainer = document.getElementById("fireworks");
+            const numberOfFirecrackers = 50;  // Adjust number of firecrackers
+
+            for (let i = 0; i < numberOfFirecrackers; i++) {
+                const firecracker = document.createElement('div');
+                firecracker.classList.add('firecracker');
+                
+                // Random position for firecracker
+                const left = Math.random() * 100;
+                const top = Math.random() * 100;
+                firecracker.style.left = `${left}vw`;
+                firecracker.style.top = `${top}vh`;
+                
+                // Random timing delay
+                firecracker.style.animationDelay = `${Math.random() * 3}s`;
+
+                // Create particles when firecracker bursts
+                firecracker.addEventListener('animationend', () => {
+                    createParticles(left, top);
+                });
+
+                fireworksContainer.appendChild(firecracker);
+            }
+        }
+
+        // Function to create particles
+        function createParticles(x, y) {
+            const fireworksContainer = document.getElementById("fireworks");
+            const numberOfParticles = 20;
+
+            for (let i = 0; i < numberOfParticles; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random direction for particles
+                const angle = Math.random() * 360;
+                const distance = Math.random() * 100;
+
+                const particleLeft = x + Math.cos(angle) * distance;
+                const particleTop = y + Math.sin(angle) * distance;
+
+                particle.style.left = `${particleLeft}vw`;
+                particle.style.top = `${particleTop}vh`;
+
+                fireworksContainer.appendChild(particle);
+
+                // Remove particle after animation
+                setTimeout(() => {
+                    particle.remove();
+                }, 1000);
+            }
+        }
+
+        // Trigger fireworks after logo animation
+        setTimeout(() => {
+            createFirecrackers();
+        }, 1500);
+
+        // Redirect to main content after animation
+        setTimeout(() => {
+            window.location.href = "main.html"; // Link to main content file
+        }, 4000);
+    </script>
 </body>
 </html>
